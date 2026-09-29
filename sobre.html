@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  var t = localStorage.getItem('caneta3d-theme');
+  if(t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    document.documentElement.setAttribute('data-theme','dark');
+  }
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre o Projeto | Caneta 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .pv-wrap{ max-width: 860px; margin: 0 auto 56px; }
+  .pv{
+    position: relative; width: 100%; aspect-ratio: 2 / 1; overflow: hidden;
+    background: #050b18; border-radius: 18px; cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    border: 1px solid rgba(63,125,137,.25);
+    -webkit-tap-highlight-color: transparent;
+  }
+  html[data-theme="dark"] .pv{ border-color: rgba(63,125,137,.4); }
+  .pv video{ position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; background:#050b18; }
+  .pv video.oculto{ visibility:hidden; }
+  .pv-hint{
+    position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+    padding:6px 14px; border-radius:999px; font:500 .8rem 'Inter',sans-serif;
+    color:#fff; background:rgba(15,27,30,.7); backdrop-filter: blur(4px);
+    pointer-events:none; transition:opacity .3s;
+  }
+  .pv.ativo .pv-hint{ opacity:0; }
+  .pv-peca{
+    position:absolute; transform:translate(-50%,-50%); border-radius:12px;
+    border:2px solid transparent; outline:none; display:none; cursor:help;
+    transition:border-color .2s, background .2s, box-shadow .2s;
+  }
+  .pv.aberto .pv-peca{ display:block; }
+  .pv-peca:hover, .pv-peca:focus{
+    border-color:rgba(120,220,240,.95); background:rgba(120,220,240,.14);
+    box-shadow:0 0 16px rgba(120,220,240,.5); z-index:3;
+  }
+  .pv-nome{
+    position:absolute; left:50%; bottom:calc(100% + 8px); transform:translateX(-50%) translateY(4px);
+    white-space:nowrap; padding:6px 12px; border-radius:8px;
+    background:#0f1b1e; color:#fff; font:600 .85rem 'Inter',sans-serif;
+    border:1px solid rgba(120,220,240,.6); opacity:0; pointer-events:none;
+    transition:opacity .2s, transform .2s;
+  }
+  .pv-peca:hover .pv-nome, .pv-peca:focus .pv-nome{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .pv-peca.baixo .pv-nome{ bottom:auto; top:calc(100% + 8px); }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="wordmark"><span class="dot"></span>Caneta 3D</span>
+    <div class="topbar-actions">
+      <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+        <button class="lang-btn" data-lang="pt" onclick="trocarIdioma('pt')">PT</button>
+        <button class="lang-btn" data-lang="en" onclick="trocarIdioma('en')">EN</button>
+        <button class="lang-btn" data-lang="es" onclick="trocarIdioma('es')">ES</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" data-i18n-attr="aria-label:theme.toggle,title:theme.toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 1020.354 15.354z"/></svg>
+      </button>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-expanded="false" aria-controls="menuOpcoes">
+        <span class="hamburger"><span></span><span></span><span></span></span>
+        Menu
+      </button>
+    </div>
+  </div>
+  <nav class="menu-opcoes" id="menuOpcoes">
+    <a href="index.html" data-i18n="nav.inicio">Início</a>
+    <a href="sobre.html" aria-current="page" data-i18n="nav.sobre">Sobre o Projeto</a>
+    <a href="participantes.html" data-i18n="nav.participantes">Participantes do Projeto</a>
+  </nav>
+</header>
+
+<section class="hero hero-solo animar">
+  <span class="eyebrow">Caneta 3D</span>
+  <h1 data-i18n="sobre.hero.title">Sobre</h1>
+  <svg class="stroke-line" width="220" height="20" viewBox="0 0 220 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14 C 40 2, 80 22, 120 10 S 200 2, 218 12" stroke="#3F7D89" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</section>
+
+<section class="section-wrap">
+  <p class="section-label animar" data-i18n="sobre.exploded.label">Explore a caneta em detalhes</p>
+  <p class="compare-intro animar" data-i18n="sobre.exploded.intro">Passe o mouse sobre a caneta para vê-la se desmontar e conheça cada peça que a compõe.</p>
+  <div class="pv-wrap animar">
+    <div class="pv" id="pecaVideo" aria-label="Caneta 3D: passe o mouse para abrir e ver cada peça" data-i18n-attr="aria-label:sobre.exploded.intro">
+      <video class="pv-fwd" src="caneta-abrindo.mp4" poster="video2_capa.jpg" muted playsinline preload="auto"></video>
+      <video class="pv-rev oculto" src="caneta-fechando.mp4" muted playsinline preload="auto"></video>
+
+      <!-- Áreas sobre as peças (visíveis quando a caneta está aberta). left/top/width/height em % do vídeo.
+           Ajuste os números para reposicionar cada peça. -->
+      <div class="pv-peca" tabindex="0" style="left:48%;top:68%;width:50%;height:18%;"><span class="pv-nome" data-i18n="sobre.componentes.carcaca.title">Carcaça</span></div>
+      <div class="pv-peca baixo" tabindex="0" style="left:46%;top:52%;width:20%;height:14%;"><span class="pv-nome" data-i18n="sobre.componentes.mpu.title">MPU6050 (opcional)</span></div>
+      <div class="pv-peca" tabindex="0" style="left:69%;top:41%;width:27%;height:42%;"><span class="pv-nome" data-i18n="sobre.componentes.arduino.title">Arduino Nano</span></div>
+      <div class="pv-peca" tabindex="0" style="left:46%;top:21%;width:22%;height:9%;"><span class="pv-nome" data-i18n="sobre.componentes.fios.title">Fios</span></div>
+      <div class="pv-peca" tabindex="0" style="left:22.5%;top:25%;width:7%;height:13%;"><span class="pv-nome" data-i18n="sobre.componentes.led.title">LED modular</span></div>
+      <div class="pv-peca baixo" tabindex="0" style="left:12%;top:60%;width:7%;height:11%;"><span class="pv-nome" data-i18n="sobre.componentes.cabo.title">Cabo USB</span></div>
+
+      <span class="pv-hint" data-i18n="sobre.exploded.hint">Passe o mouse aqui</span>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap">
+  <p class="section-label" data-i18n="sobre.componentes.label">Componentes do SPV</p>
+  <p class="compare-intro" data-i18n="sobre.componentes.intro">Conheça as peças que compõem o Sistema de Posicionamento Visual (SPV) utilizado na caneta.</p>
+
+  <div class="grid-cards">
+
+    <div class="etapas animar">
+      <div class="imagens">
+        <div class="image-frame">
+          <img src="arduinonano.jpg" alt="Arduino Nano">
+        </div>
+      </div>
+      <h2 data-i18n="sobre.componentes.arduino.title">Arduino Nano</h2>
+      <p data-i18n="sobre.componentes.arduino.text">Responsável pelo controle do sistema e por fazer o LED piscar em uma frequência extremamente baixa, facilitando sua identificação pelo sistema de visão computacional.</p>
+    </div>
+
+    <div class="etapas animar">
+      <div class="imagens">
+        <div class="image-frame">
+          <img src="ledmodular.jpg" alt="LED modular">
+        </div>
+      </div>
+      <h2 data-i18n="sobre.componentes.led.title">LED modular</h2>
+      <p data-i18n="sobre.componentes.led.text">Funciona como referência visual para a câmera. Ele pode ser substituído manualmente por LEDs de diferentes cores, como verde, azul, vermelho ou amarelo, permitindo adaptar o SPV a diferentes ambientes e condições de iluminação.</p>
+    </div>
+
+    <div class="etapas animar">
+      <div class="imagens">
+        <div class="image-frame">
+          <img src="projeto-em-uso.jpg" alt="Carcaça da caneta">
+        </div>
+      </div>
+      <h2 data-i18n="sobre.componentes.carcaca.title">Carcaça</h2>
+      <p data-i18n="sobre.componentes.carcaca.text">Serve para proteger e manter os componentes organizados em formato de caneta. No SPV 1.0, utilizamos uma carcaça impressa em 3D, mas ela pode ser substituída por PCC ou qualquer outro material capaz de acomodar e proteger os componentes.</p>
+    </div>
+
+    <div class="etapas animar">
+      <div class="imagens">
+        <div class="image-frame">
+          <img src="jumper.jpg" alt="Jumper">
+        </div>
+      </div>
+      <h2 data-i18n="sobre.componentes.fios.title">Fios</h2>
+      <p data-i18n="sobre.componentes.fios.text">Realizam as conexões elétricas entre o Arduino, o LED e os demais componentes, permitindo que o sistema funcione.</p>
+    </div>
+
+    <div class="etapas animar">
+      <div class="imagens">
+        <div class="image-frame">
+          <img src="mpu.jpg" alt="MPU6050">
+        </div>
+      </div>
+      <h2 data-i18n="sobre.componentes.mpu.title">MPU6050 (opcional)</h2>
+      <p data-i18n="sobre.componentes.mpu.text">Pode ser utilizado para medir os movimentos e vibrações da caneta. Com esses dados, o sistema pode futuramente estimar o nível de tremor do usuário, auxiliando na análise dos movimentos durante a reabilitação.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>Caneta 3D — Sistema de Posicionamento Visual (SPV)</footer>
+
+<!-- ===================== WIDGET VLIBRAS (tradutor de Português para Libras) =====================
+     Ícone flutuante que traduz o conteúdo da página para Língua Brasileira de Sinais.
+     Serviço público oficial: https://www.gov.br/governodigital/pt-br/vlibras ============ -->
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+  new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
+<script>
+// Vídeo interativo: mouse em cima = caneta abre; mouse fora = toca o reverso. Toque em celular alterna.
+(function(){
+  var box = document.getElementById('pecaVideo');
+  if(!box) return;
+  var fw = box.querySelector('.pv-fwd'), rv = box.querySelector('.pv-rev');
+  var estado = 'fechada'; // fechada | abrindo | aberta | fechando
+  function dur(){ return fw.duration || rv.duration || 4; }
+  function mostrar(v){
+    fw.classList.toggle('oculto', v !== fw);
+    rv.classList.toggle('oculto', v !== rv);
+  }
+  function tocar(v){ var p = v.play(); if(p && p.catch) p.catch(function(){}); }
+  function abrir(){
+    if(estado === 'aberta' || estado === 'abrindo') return;
+    var t = (estado === 'fechando') ? Math.max(0, dur() - rv.currentTime) : 0;
+    rv.pause();
+    fw.currentTime = t;
+    mostrar(fw); tocar(fw);
+    estado = 'abrindo';
+    box.classList.add('ativo');
+  }
+  function fechar(){
+    if(estado === 'fechada' || estado === 'fechando') return;
+    var t = (estado === 'abrindo') ? fw.currentTime : dur();
+    fw.pause();
+    rv.currentTime = Math.max(0, dur() - t);
+    mostrar(rv); tocar(rv);
+    estado = 'fechando';
+    box.classList.remove('aberto');
+  }
+  fw.addEventListener('ended', function(){ if(estado === 'abrindo'){ estado = 'aberta'; box.classList.add('aberto'); } });
+  rv.addEventListener('ended', function(){
+    if(estado === 'fechando'){ estado = 'fechada'; fw.currentTime = 0; mostrar(fw); box.classList.remove('ativo'); }
+  });
+  box.addEventListener('mouseenter', abrir);
+  box.addEventListener('mouseleave', fechar);
+  // Telas de toque (sem hover): um toque abre/fecha
+  if(window.matchMedia('(hover: none)').matches){
+    box.addEventListener('click', function(){
+      if(estado === 'aberta' || estado === 'abrindo') fechar(); else abrir();
+    });
+  }
+})();
+</script>
+<script src="Idioma.JS"></script>
+<script src="script.js"></script>
+</body>
+</html>
